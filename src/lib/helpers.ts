@@ -1,0 +1,1 @@
+export const FILTERS = ['All', 'Pending', 'Completed'] as const;
