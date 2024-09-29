@@ -19,7 +19,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ addTodo }) => {
         <form onSubmit={handleSubmit} className="mb-4">
             <input
                 type="text"
-                className="border rounded w-full py-2 px-3 placeholder:italic"
+                className="border rounded w-full py-4 px-5 placeholder:italic"
                 placeholder="I need to do..."
                 value={text}
                 onChange={(e) => setText(e.target.value)}
