@@ -114,3 +114,43 @@ test('toggles a todo', () => {
     const uncompletedTodo = screen.getByTestId('complete-todo-btn-0');
     expect(uncompletedTodo).not.toHaveClass('line-through');
 });
+
+test('filters todos by All, Pending, and Completed', async () => {
+    render(<App />);
+    const input = screen.getByTestId('new-todo-input');
+    const form = screen.getByTestId('new-todo-form');
+
+    fireEvent.change(input, { target: { value: 'Pending Todo' } });
+    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
+    fireEvent.submit(form);
+
+    fireEvent.change(input, { target: { value: 'Completed Todo' } });
+    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
+    fireEvent.submit(form);
+
+    const completeBtn = screen.getByTestId('complete-todo-btn-1');
+    fireEvent.click(completeBtn);
+
+    const allFilterBtn = screen.getByTestId('All-filter');
+    fireEvent.click(allFilterBtn);
+    await waitFor(() => {
+        const todos = screen.getAllByTestId(/todo-/);
+        expect(todos.length).toBe(2);
+    });
+
+    const pendingFilterBtn = screen.getByTestId('Pending-filter');
+    fireEvent.click(pendingFilterBtn);
+    await waitFor(() => {
+        const todos = screen.getAllByTestId(/todo-/);
+        expect(todos.length).toBe(1);
+        expect(todos[0]).toHaveTextContent('Pending Todo');
+    });
+
+    const completedFilterBtn = screen.getByTestId('Completed-filter');
+    fireEvent.click(completedFilterBtn);
+    await waitFor(() => {
+        const todos = screen.getAllByTestId(/todo-/);
+        expect(todos.length).toBe(1);
+        expect(todos[0]).toHaveTextContent('Completed Todo');
+    });
+});
