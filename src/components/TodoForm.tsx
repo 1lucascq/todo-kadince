@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TodoFormProps } from '../lib/types';
 
-const TodoForm: React.FC<TodoFormProps> = ({ addTodo }) => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
+const TodoForm: React.FC<TodoFormProps> = ({ addTodo, initialTitle = '', initialDescription = '' }) => {
+    const [title, setTitle] = useState(initialTitle);
+    const [description, setDescription] = useState(initialDescription);
+	const isEditing = initialTitle ? true : false;
+
+    useEffect(() => {
+        setTitle(initialTitle);
+        setDescription(initialDescription);
+    }, [initialTitle, initialDescription]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -17,7 +23,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ addTodo }) => {
     return (
         <form
             onSubmit={handleSubmit}
-            className="mb-4"
+            className="mb-5 flex flex-col gap-2"
             data-testid="new-todo-form"
         >
             <input
@@ -34,13 +40,14 @@ const TodoForm: React.FC<TodoFormProps> = ({ addTodo }) => {
                 value={description}
                 data-testid="new-todo-description"
                 onChange={(e) => setDescription(e.target.value)}
+				maxLength={200}
             />
-			<button
-				type="submit"
-				className="border rounded w-full py-3 bg-kGreen text-kBlack text-xl hover:bg-kDarkGreen"
-			>
-				Create
-			</button>
+            <button
+                type="submit"
+                className="border rounded w-full py-3 bg-kGreen text-kBlack text-xl hover:bg-kDarkGreen"
+            >
+                {isEditing ? 'Save' : 'Create'}
+            </button>
         </form>
     );
 };

@@ -32,4 +32,12 @@ export interface IFilterButtonsProps {
 
 export interface TodoFormProps {
     addTodo: (title: string, description: string) => void;
+	initialTitle?: string;
+	initialDescription?: string;
+}
+
+export interface ModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    children: React.ReactNode;
 }
