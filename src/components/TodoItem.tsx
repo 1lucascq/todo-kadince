@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Todo } from '../lib/types';
-import { TodoItemProps } from '../lib/types';
+import { ITodoItemProps } from '../lib/types';
 
-const TodoItem: React.FC<TodoItemProps> = ({
-    todo,
+const TodoItem: React.FC<ITodoItemProps> = ({
+    index,
+	todo,
     toggleComplete,
     editTodo,
     deleteTodo,
@@ -51,13 +51,13 @@ const TodoItem: React.FC<TodoItemProps> = ({
 	const renderEditOrSaveButton = () => {
         if (isEditing) {
             return (
-                <button className="text-yellow-500 mr-4" onClick={handleSave} data-testId="save-button">
+                <button className="text-yellow-500 mr-4" onClick={handleSave} data-testid={`save-todo-btn-${index}`}>
                     💾
                 </button>
             );
         } else {
             return (
-                <button className="text-yellow-500 mr-4" onClick={handleEdit} data-testId="edit-button">
+                <button className="text-yellow-500 mr-4" onClick={handleEdit} data-testid={`edit-todo-btn-${index}`}>
                     ✎
                 </button>
             );
@@ -73,14 +73,15 @@ const TodoItem: React.FC<TodoItemProps> = ({
                     value={newTodoText}
                     onChange={(e) => setNewTodoText(e.target.value)}
                     onKeyDown={handleKeyDown}
-					data-testId="edit-todo-textarea"
-                />
+					data-testid={`edit-todo-textarea-${index}`}
+				/>
             ) : (
                 <div
-                    className={`flex-1 ${todo.completed ? 'line-through text-gray-500' : ''}`}
+                    className={`flex-1 cursor-pointer ${todo.completed ? 'line-through text-gray-500' : ''}`}
                     onClick={handleComplete}
+					data-testid={`complete-todo-btn-${index}`}
                 >
-                    <span data-testId="todo-text">{todo.text}</span>
+                    <span data-testid={`todo-${index}`}>{todo.text}</span>
                 </div>
             )}
             <div>
@@ -88,6 +89,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
                 <button
                     className="text-red-500 font-bold"
                     onClick={handleCancelEdit}
+					data-testid={`delete-todo-btn-${index}`}
                 >
                     ✕
                 </button>

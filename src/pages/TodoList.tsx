@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Todo, Filter } from '../lib/types';
+import { ITodo, TFilter } from '../lib/types';
 import TodoForm from '../components/TodoForm';
 import TodoListItems from '../components/TodoListItems';
 import FilterButtons from '../components/FilterButtons';
 
 const App: React.FC = () => {
-    const [todos, setTodos] = useState<Todo[]>([]);
-    const [activeFilter, setActiveFilter] = useState<Filter>('All');
+    const [todos, setTodos] = useState<ITodo[]>([]);
+    const [activeFilter, setActiveFilter] = useState<TFilter>('All');
 
 	useEffect(() => {
         const storedTodos = localStorage.getItem('todos');
@@ -30,7 +30,7 @@ const App: React.FC = () => {
     }
 
     function addTodo(text: string) {
-        const newTodo: Todo = {
+        const newTodo: ITodo = {
             id: Date.now(),
             text,
             completed: false,
@@ -52,7 +52,7 @@ const App: React.FC = () => {
 
     return (
         <main className="container max-w-xl mx-auto p-4 dark">
-            <h1 data-testId="title" className="text-2xl my-5 font-bold text-center text-kGreen">
+            <h1 data-testid="title" className="text-2xl my-5 font-bold text-center text-kGreen">
                 Kadince Task Manager
             </h1>
             <TodoForm addTodo={addTodo} />

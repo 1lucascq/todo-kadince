@@ -1,9 +1,8 @@
 import React from 'react';
-import { Todo } from '../lib/types';
 import TodoItem from './TodoItem';
-import { TodoListProps } from '../lib/types';
+import { ITodoListProps } from '../lib/types';
 
-const TodoList: React.FC<TodoListProps> = ({
+const TodoListItems: React.FC<ITodoListProps> = ({
     todos,
     activeFilter,
 	toggleComplete,
@@ -18,10 +17,11 @@ const TodoList: React.FC<TodoListProps> = ({
     });
 
     return (
-        <ul>
-            {filteredTodos.map((todo) => (
+        <ul data-testid="todo-list">
+            {filteredTodos.map((todo, index) => (
                 <TodoItem
                     key={todo.id}
+                    index={index}
                     todo={todo}
 					toggleComplete={toggleComplete}
 					editTodo={editTodo}
@@ -32,4 +32,4 @@ const TodoList: React.FC<TodoListProps> = ({
     );
 };
 
-export default TodoList;
+export default TodoListItems;

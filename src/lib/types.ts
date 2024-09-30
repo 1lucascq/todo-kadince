@@ -1,29 +1,30 @@
 import { FILTERS } from './helpers';
 
-export type Filter = typeof FILTERS[number];
+export type TFilter = typeof FILTERS[number];
 
-export interface Todo {
+export interface ITodo {
     id: number;
     text: string;
     completed: boolean;
 }
 
-export interface TodoListProps {
-    todos: Todo[];
-    activeFilter: Filter;
+export interface ITodoListProps {
+    todos: ITodo[];
+    activeFilter: TFilter;
 	toggleComplete: (id: number) => void;
 	editTodo: (id: number, newText: string) => void;
 	deleteTodo: (id: number) => void;
 }
 
-export interface TodoItemProps {
-    todo: Todo;
+export interface ITodoItemProps {
+	index: number;
+    todo: ITodo;
 	toggleComplete: (id: number) => void;
 	editTodo: (id: number, newText: string) => void;
 	deleteTodo: (id: number) => void;
 }
 
-export interface FilterButtonsProps {
-    activeFilter: Filter;
-    setActiveFilter: (filter: Filter) => void;
+export interface IFilterButtonsProps {
+    activeFilter: TFilter;
+    setActiveFilter: (filter: TFilter) => void;
 }
