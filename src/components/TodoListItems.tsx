@@ -17,7 +17,7 @@ const TodoListItems: React.FC<ITodoListProps> = ({
     });
 
     return (
-        <ul data-testid="todo-list">
+        <ul data-testid="todo-list" className='flex flex-col gap-3'>
             {filteredTodos.map((todo, index) => (
                 <TodoItem
                     key={todo.id}

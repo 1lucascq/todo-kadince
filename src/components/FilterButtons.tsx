@@ -7,7 +7,7 @@ const FilterButtons: React.FC<IFilterButtonsProps> = ({
     setActiveFilter,
 }) => {
     return (
-        <div className="mb-4 flex justify-center">
+        <div className="mb-5 flex justify-center">
             {FILTERS.map((filter) => (
                 <button
                     key={filter}
