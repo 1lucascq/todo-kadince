@@ -1,6 +1,6 @@
 {
-  "short_name": "Kadince Todo",
-  "name": "Kadince Todo App",
+  "short_name": "Personal Task Manager",
+  "name": "Kadince Personal Task Manager",
   "icons": [
     {
       "src": "favicon.ico",
