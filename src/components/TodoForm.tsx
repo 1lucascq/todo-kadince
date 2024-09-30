@@ -22,6 +22,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ addTodo }) => {
                 className="border rounded w-full py-4 px-5 placeholder:italic"
                 placeholder="I need to do..."
                 value={text}
+				data-testId="new-todo-input"
                 onChange={(e) => setText(e.target.value)}
             />
         </form>

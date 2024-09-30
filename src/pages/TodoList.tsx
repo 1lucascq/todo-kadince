@@ -52,7 +52,7 @@ const App: React.FC = () => {
 
     return (
         <main className="container max-w-xl mx-auto p-4 dark">
-            <h1 className="text-2xl my-5 font-bold text-center text-kGreen">
+            <h1 data-testId="title" className="text-2xl my-5 font-bold text-center text-kGreen">
                 Kadince Task Manager
             </h1>
             <TodoForm addTodo={addTodo} />
