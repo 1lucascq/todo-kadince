@@ -8,18 +8,18 @@ const App: React.FC = () => {
     const [todos, setTodos] = useState<ITodo[]>([]);
     const [activeFilter, setActiveFilter] = useState<TFilter>('All');
 
-	useEffect(() => {
+    useEffect(() => {
         const storedTodos = localStorage.getItem('todos');
         if (storedTodos) {
             setTodos(JSON.parse(storedTodos));
         }
     }, []);
 
-	useEffect(() => {
-		if (todos.length > 0) {
-			localStorage.setItem('todos', JSON.stringify(todos));
-		}
-	}, [todos])
+    useEffect(() => {
+        if (todos.length > 0) {
+            localStorage.setItem('todos', JSON.stringify(todos));
+        }
+    }, [todos]);
 
     function toggleComplete(id: number) {
         setTodos(
@@ -29,10 +29,11 @@ const App: React.FC = () => {
         );
     }
 
-    function addTodo(text: string) {
+    function addTodo(title: string, description: string) {
         const newTodo: ITodo = {
             id: Date.now(),
-            text,
+            title,
+            description,
             completed: false,
         };
         setTodos([newTodo, ...todos]);
@@ -42,18 +43,21 @@ const App: React.FC = () => {
         setTodos(todos.filter((todo) => todo.id !== id));
     }
 
-    function editTodo(id: number, newText: string) {
+    function editTodo(id: number, title: string, description: string) {
         setTodos(
             todos.map((todo) =>
-                todo.id === id ? { ...todo, text: newText } : todo
+                todo.id === id ? { ...todo, title, description } : todo
             )
         );
     }
 
     return (
         <main className="container max-w-xl mx-auto p-4 dark">
-            <h1 data-testid="title" className="text-2xl my-5 font-bold text-center text-kGreen">
-                Kadince Task Manager
+            <h1
+                data-testid="title"
+                className="text-2xl my-5 font-bold text-center text-kGreen"
+            >
+                Kadince Personal Task Manager
             </h1>
             <TodoForm addTodo={addTodo} />
             <FilterButtons
