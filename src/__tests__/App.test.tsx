@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import App from '../App';
 
-test('renders Kadince Task Manager title', () => {
+test('renders Kadince Personal Task Manager title', () => {
     render(<App />);
     const titleElement = screen.getByText(/Kadince Task Manager/i);
     expect(titleElement).toBeInTheDocument();
