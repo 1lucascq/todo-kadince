@@ -4,27 +4,32 @@ export type TFilter = typeof FILTERS[number];
 
 export interface ITodo {
     id: number;
-    text: string;
+    title: string;
+	description: string;
     completed: boolean;
 }
 
-export interface ITodoListProps {
-    todos: ITodo[];
-    activeFilter: TFilter;
+interface IManageTodosFunctions {
 	toggleComplete: (id: number) => void;
-	editTodo: (id: number, newText: string) => void;
+	editTodo: (id: number, title: string, description: string) => void;
 	deleteTodo: (id: number) => void;
 }
 
-export interface ITodoItemProps {
+export interface ITodoListProps extends IManageTodosFunctions {
+    todos: ITodo[];
+    activeFilter: TFilter;
+}
+
+export interface ITodoItemProps extends IManageTodosFunctions {
 	index: number;
     todo: ITodo;
-	toggleComplete: (id: number) => void;
-	editTodo: (id: number, newText: string) => void;
-	deleteTodo: (id: number) => void;
 }
 
 export interface IFilterButtonsProps {
     activeFilter: TFilter;
     setActiveFilter: (filter: TFilter) => void;
+}
+
+export interface TodoFormProps {
+    addTodo: (title: string, description: string) => void;
 }
