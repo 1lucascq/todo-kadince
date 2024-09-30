@@ -8,7 +8,7 @@ module.exports = {
 				kBg: '#323232',
 				'kBg-light': '#e5e7eb',
 				kGreen: '#CBE068',
-				kDrakGreen: '#9EB441',
+				kDarkGreen: '#9EB441',
 				kBlack: '#555',
 			},
 		},
