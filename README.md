@@ -1,11 +1,11 @@
 # Kadince Personal Task Manager
 
-This is a React Task List Assignment project made as part of the evaluation for a Fullstack Software Engineer at Kadince. The project includes Jest and Tailwind CSS as dependencies.
+This is a React Task List Assignment project, created as part of the evaluation for a Fullstack Software Engineer position at Kadince. The project includes Jest and Tailwind CSS as dependencies.
 
 ## Project Structure
 
 ```
-todo-kadince
+Kadince Personal Task Manager
 ├── package.json
 ├── public
 │   ├── index.html
@@ -60,26 +60,24 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ### Add a Todo
 
-To add a new todo item, enter the title and description in the input fields and click the "Create" button. The new todo item will be added to the list.
+To add a new to-do item, enter the title and, optionally, the description in the input fields and click the "Create" button. The new to-do item will be added to the list.
 
 ### Edit a Todo
 
-To edit an existing todo item, click the edit button (✎) next to the todo item. A modal will appear with the current title and description. Make the necessary changes and click the "Save" button to update the todo item.
+To edit an existing to-do item, click the edit button (✎) next to the to-do item. A modal will appear with the current title and description. Make the necessary changes and click the "Save" button to update the to-do item.
 
 ### Delete a Todo
 
-To delete a todo item, click the delete button (✕) next to the todo item. A confirmation modal will appear. Click the "Confirm" button to delete the todo item.
+To delete a to-do item, click the delete button (✕) next to the to-do item. A confirmation modal will appear. Click the "Confirm" button to delete the to-do item.
 
 ### Toggle Complete
 
-To mark a todo item as complete or incomplete, click on the title of the todo item. The item will be toggled between complete and incomplete states.
+To mark a to-do item as complete or incomplete, click on the check button (✔) of the to-do item. The item will be toggled between Complete and Pending states.
 
 ### Filter Todos
 
-To filter the todo items, use the filter buttons ("All", "Active", "Completed") to view all items, only active items, or only completed items, respectively.
+To filter the to-do items, use the filter buttons ("All", "Pending", "Completed") to view all items, only pending items, or only completed items, respectively.
 
-## Learn More
+## End
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Thank you for your time reading this document.
