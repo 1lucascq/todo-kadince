@@ -52,7 +52,7 @@ const App: React.FC = () => {
     }
 
     return (
-        <main className="container max-w-xl mx-auto p-4 dark">
+        <main className="container max-w-2xl mx-auto p-4 dark">
             <h1
                 data-testid="title"
                 className="text-2xl my-5 font-bold text-center text-kGreen"
