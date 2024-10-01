@@ -47,4 +47,5 @@ export interface IconButtonProps {
     onClick: () => void;
     dataTestId: string;
     children: React.ReactNode;
+	disabled?: boolean;
 }

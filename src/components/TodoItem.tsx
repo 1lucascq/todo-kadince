@@ -66,11 +66,12 @@ const TodoItem: React.FC<ITodoItemProps> = ({
 					</IconButton>
 
 					<IconButton
-						className="text-red-600 bg-blue-200"
+						className={`text-red-600 ${todo.description ? 'bg-blue-200' : 'bg-gray-200'}`}
 						onClick={showMore}
+						disabled={!todo.description}
 						dataTestId={`show-more-btn-${index}`}
 					>
-						{isExpanded ? '➖' : '➕'}
+						{todo.description ? (isExpanded ? '➖' : '➕') : '🚫'}
 					</IconButton>
 
 					<IconButton
