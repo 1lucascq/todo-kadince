@@ -29,8 +29,8 @@ describe('TodoItem Component', () => {
 
 	test('toggles complete status', () => {
 		render(<TodoItem {...mockProps} />);
-		const todoElement = screen.getByTestId('todo-title-0');
-		fireEvent.click(todoElement);
+		const checkTodo = screen.getByTestId('check-todo-btn-0');
+		fireEvent.click(checkTodo);
 		expect(mockProps.toggleComplete).toHaveBeenCalledWith(mockTodo.id);
 	});
 

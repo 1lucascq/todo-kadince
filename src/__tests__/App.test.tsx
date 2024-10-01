@@ -17,7 +17,8 @@ describe('Filter Todos', () => {
 		fireEvent.change(input, { target: { value: 'Pending Todo' } });
 		fireEvent.submit(form);
 
-		const completeBtn = screen.getByText('Completed Todo');
+		const completeBtn = screen.getByTestId('check-todo-btn-1');
+		
 		fireEvent.click(completeBtn);
 
 		const allFilterBtn = screen.getByTestId('All-filter');
