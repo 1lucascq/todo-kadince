@@ -14,7 +14,7 @@ const TodoItem: React.FC<ITodoItemProps> = ({
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-	const handleEdit = () => {
+    const handleEdit = () => {
         setIsModalOpen(true);
     };
 
@@ -55,23 +55,29 @@ const TodoItem: React.FC<ITodoItemProps> = ({
             <li
                 className={`grid grid-cols-10 rounded transition-all duration-300 ${todo.completed ? 'bg-kBg-light' : 'bg-white'} ${isExpanded ? 'max-h-96' : 'max-h-20'}`}
             >
-                <div className="col-span-7">
+                <div className="col-span-6 md:col-span-7">
                     <p
-                        className={`p-4 cursor-pointer truncate w-full ${todo.completed ? 'line-through text-gray-500' : ''}`}
+                        className={`
+							p-4 cursor-pointer w-full
+							${todo.completed ? 'line-through text-gray-500' : ''}
+							${isExpanded ? 'break-words' : 'truncate'}
+						`}
                         onClick={handleComplete}
-                        data-testid={`todo-${index}`}
+                        data-testid={`todo-title-${index}`}
                     >
                         {todo.title}
                     </p>
                     {isExpanded && (
-						<p
-							className={`p-4 text-justify break-words ${todo.completed ? 'line-through text-gray-500' : ''}`}
-						>
-							{todo.description}
-						</p>
+                        <p
+                            className={`p-4 text-justify break-words ${todo.completed ? 'line-through text-gray-500' : ''}`}
+							onClick={handleComplete}
+							data-testid={`todo-description-${index}`}
+                        >
+                            {todo.description}
+                        </p>
                     )}
                 </div>
-                <div className="col-span-3 flex justify-around">
+                <div className="col-span-4 md:col-span-3 flex justify-around">
                     <button
                         className="text-red-500 font-bold flex-1 bg-blue-300"
                         onClick={showMore}
@@ -81,14 +87,14 @@ const TodoItem: React.FC<ITodoItemProps> = ({
                     </button>
 
                     <button
-                        className="text-yellow-500 flex-1 bg-lime-300"
+                        className="text-yellow-500 font-bold flex-1 bg-yellow-300"
                         onClick={handleEdit}
                         data-testid={`edit-todo-btn-${index}`}
                     >
                         ✎
                     </button>
                     <button
-                        className="text-red-500 font-bold flex-1 bg-slate-500"
+                        className="text-red-500 font-bold flex-1 bg-red-300"
                         onClick={handleDelete}
                         data-testid={`delete-todo-btn-${index}`}
                     >
@@ -98,11 +104,13 @@ const TodoItem: React.FC<ITodoItemProps> = ({
             </li>
 
             <Modal isOpen={isModalOpen} onClose={handleCancelEdit}>
-                <TodoForm
-                    addTodo={handleSave}
-                    initialTitle={todo.title}
-                    initialDescription={todo.description}
-                />
+                <div className="container w-[330px] p-2 dark md:w-[450px]">
+                    <TodoForm
+                        addTodo={handleSave}
+                        initialTitle={todo.title}
+                        initialDescription={todo.description}
+                    />
+                </div>
             </Modal>
 
             <Modal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}>
@@ -114,6 +122,7 @@ const TodoItem: React.FC<ITodoItemProps> = ({
                         <button
                             className="bg-red-500 font-semibold text-white px-4 py-2 rounded"
                             onClick={confirmDelete}
+							data-testid={'confirm-delete-btn'}
                         >
                             Delete
                         </button>

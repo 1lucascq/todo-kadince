@@ -7,12 +7,12 @@ const FilterButtons: React.FC<IFilterButtonsProps> = ({
     setActiveFilter,
 }) => {
     return (
-        <div className="mb-5 flex justify-center">
+        <div className="mb-5 flex justify-center gap-3">
             {FILTERS.map((filter) => (
                 <button
                     key={filter}
                     onClick={() => setActiveFilter(filter)}
-                    className={`px-4 py-2 mr-2 rounded ${
+                    className={`px-4 py-2 rounded ${
                         activeFilter === filter
                             ? 'bg-kGreen text-kBlack'
                             : 'bg-gray-200 text-kDarkGreen'
