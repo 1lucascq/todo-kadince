@@ -1,6 +1,6 @@
 # Kadince Personal Task Manager
 
-This is a React Task List Assignment project made as part of the evaluation for a Fullstack Software Engineer at Kadince. The project includes Jest and Tailwind CSS as dependencies.
+This is a React Task List Assignment project, created as part of the evaluation for a Fullstack Software Engineer position at Kadince. The project includes Jest and Tailwind CSS as dependencies.
 
 ## Project Structure
 
