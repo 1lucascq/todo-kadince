@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ITodoItemProps } from '../lib/types';
 import Modal from './Modal';
 import TodoForm from './TodoForm';
+import IconButton from './IconButton';
 
 const TodoItem: React.FC<ITodoItemProps> = ({
     index,
@@ -52,56 +53,65 @@ const TodoItem: React.FC<ITodoItemProps> = ({
 
     return (
         <>
-            <li
-                className={`grid grid-cols-10 rounded transition-all duration-300 ${todo.completed ? 'bg-kBg-light' : 'bg-white'} ${isExpanded ? 'max-h-96' : 'max-h-20'}`}
-            >
-                <div className="col-span-6 md:col-span-7">
-                    <p
-                        className={`
-							p-4 cursor-pointer w-full
+			<li
+				className={`rounded transition-all duration-300 ${todo.completed ? 'bg-kBg-light' : 'bg-white'}`}
+			>
+				<div className="flex justify-around min-h-[44px]">
+					<IconButton
+						className="text-green-600 bg-green-200"
+						onClick={handleComplete}
+						dataTestId={`check-todo-btn-${index}`}
+					>
+						✔
+					</IconButton>
+
+					<IconButton
+						className="text-red-600 bg-blue-200"
+						onClick={showMore}
+						dataTestId={`show-more-btn-${index}`}
+					>
+						{isExpanded ? '➖' : '➕'}
+					</IconButton>
+
+					<IconButton
+						className="text-yellow-600 bg-yellow-200"
+						onClick={handleEdit}
+						dataTestId={`edit-todo-btn-${index}`}
+					>
+						✎
+					</IconButton>
+
+					<IconButton
+						className="text-red-600 bg-red-200"
+						onClick={handleDelete}
+						dataTestId={`delete-todo-btn-${index}`}
+					>
+						✕
+					</IconButton>
+				</div>
+				<div className="px-4 py-6 min-h-[44px]">
+					<p
+						className={`
+							w-full
+							font-bold
+							text-kBlack
 							${todo.completed ? 'line-through text-gray-500' : ''}
 							${isExpanded ? 'break-words' : 'truncate'}
 						`}
-                        onClick={handleComplete}
-                        data-testid={`todo-title-${index}`}
-                    >
-                        {todo.title}
-                    </p>
-                    {isExpanded && (
-                        <p
-                            className={`p-4 text-justify break-words ${todo.completed ? 'line-through text-gray-500' : ''}`}
-							onClick={handleComplete}
+						data-testid={`todo-title-${index}`}
+					>
+						{todo.title}
+					</p>
+					{isExpanded && (
+						<p
+							className={`pt-5 text-justify break-words ${todo.completed ? 'line-through text-gray-500' : ''}`}
 							data-testid={`todo-description-${index}`}
-                        >
-                            {todo.description}
-                        </p>
-                    )}
-                </div>
-                <div className="col-span-4 md:col-span-3 flex justify-around">
-                    <button
-                        className="text-red-500 font-bold flex-1 bg-blue-300"
-                        onClick={showMore}
-                        data-testid={`show-more-btn-${index}`}
-                    >
-                        {isExpanded ? '➖' : '➕'}
-                    </button>
-
-                    <button
-                        className="text-yellow-500 font-bold flex-1 bg-yellow-300"
-                        onClick={handleEdit}
-                        data-testid={`edit-todo-btn-${index}`}
-                    >
-                        ✎
-                    </button>
-                    <button
-                        className="text-red-500 font-bold flex-1 bg-red-300"
-                        onClick={handleDelete}
-                        data-testid={`delete-todo-btn-${index}`}
-                    >
-                        ✕
-                    </button>
-                </div>
-            </li>
+						>
+							{todo.description}
+						</p>
+					)}
+				</div>
+			</li>
 
             <Modal isOpen={isModalOpen} onClose={handleCancelEdit}>
                 <div className="container w-[330px] p-2 dark md:w-[450px]">
@@ -122,7 +132,7 @@ const TodoItem: React.FC<ITodoItemProps> = ({
                         <button
                             className="bg-red-500 font-semibold text-white px-4 py-2 rounded"
                             onClick={confirmDelete}
-							data-testid={'confirm-delete-btn'}
+                            data-testid={'confirm-delete-btn'}
                         >
                             Delete
                         </button>

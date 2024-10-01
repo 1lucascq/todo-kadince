@@ -41,3 +41,10 @@ export interface ModalProps {
     onClose: () => void;
     children: React.ReactNode;
 }
+
+export interface IconButtonProps {
+    className: string;
+    onClick: () => void;
+    dataTestId: string;
+    children: React.ReactNode;
+}
