@@ -1,22 +1,16 @@
 # Kadince Personal Task Manager
 
-This is a React project that includes Jest and Tailwind CSS as dependencies.
+This is a React Task List Assignment project made as part of the evaluation for a Fullstack Software Engineer at Kadince. The project includes Jest and Tailwind CSS as dependencies.
 
 ## Project Structure
 
 ```
 todo-kadince
-├── .gitignore
-├── .prettierignore
-├── .prettierrc
-├── jest.config.js
 ├── package.json
-├── postcss.config.js
 ├── public
 │   ├── index.html
 │   ├── manifest.json
 │   └── robots.txt
-├── README.md
 ├── src
 │   ├── __tests__
 │   │   ├── App.test.tsx
