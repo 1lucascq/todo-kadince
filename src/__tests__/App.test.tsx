@@ -1,156 +1,133 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import App from '../App';
 
-test('renders Kadince Personal Task Manager title', () => {
-    render(<App />);
-    const titleElement = screen.getByText(/Kadince Task Manager/i);
-    expect(titleElement).toBeInTheDocument();
+// Automatically unmount and cleanup DOM after the test is finished.
+afterEach(cleanup);
+
+describe('Filter Todos', () => {
+	test('filters todos by All, Pending, and Completed', async () => {
+		render(<App />);
+		const input = screen.getByTestId('new-todo-input');
+		const form = screen.getByTestId('new-todo-form');
+
+		fireEvent.change(input, { target: { value: 'Completed Todo' } });
+		fireEvent.submit(form);
+		
+		fireEvent.change(input, { target: { value: 'Pending Todo' } });
+		fireEvent.submit(form);
+
+		const completeBtn = screen.getByText('Completed Todo');
+		fireEvent.click(completeBtn);
+
+		const allFilterBtn = screen.getByTestId('All-filter');
+		fireEvent.click(allFilterBtn);
+		await waitFor(() => {
+			const todos = screen.getAllByTestId(/todo-title/);
+			expect(todos.length).toBe(2);
+		});
+
+		const completedFilterBtn = screen.getByTestId('Completed-filter');
+		fireEvent.click(completedFilterBtn);
+
+		await waitFor(() => {
+			const todos = screen.getAllByTestId(/todo-title/);
+			expect(todos.length).toBe(1);
+			expect(todos[0]).toHaveTextContent('Completed Todo');
+		});
+
+		const pendingFilterBtn = screen.getByTestId('Pending-filter');
+		fireEvent.click(pendingFilterBtn);
+		await waitFor(() => {
+			const todos = screen.getAllByTestId(/todo-title/);
+			expect(todos.length).toBe(1);
+			expect(todos[0]).toHaveTextContent('Pending Todo');
+		});
+
+	});
 });
 
-test('renders new todo input', () => {
-    render(<App />);
-    const input = screen.getByTestId('new-todo-input');
-    expect(input).toBeInTheDocument();
-});
+describe('App E2E Tests', () => {
+	test('renders new todo input', () => {
+		render(<App />);
+		const input = screen.getByTestId('new-todo-input');
+		expect(input).toBeInTheDocument();
+	});
 
-test('adds a new todo and edit saving with Enter', async () => {
-    render(<App />);
-    const input = screen.getByTestId('new-todo-input');
-    const form = screen.getByTestId('new-todo-form');
-    fireEvent.change(input, { target: { value: 'Do dis' } });
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
-    fireEvent.submit(form);
+	test('adds a new todo, edit and save', async () => {
+		render(<App />);
+		const input = screen.getByTestId('new-todo-input');
+		const description = screen.getByTestId('new-todo-description');
+		const form = screen.getByTestId('new-todo-form');
+		fireEvent.change(input, { target: { value: 'Do dis' } });
+		fireEvent.change(description, { target: { value: 'im doing dis' } });
+		fireEvent.submit(form);
 
-    const todoList = screen.getByTestId('todo-list');
-    expect(todoList).toBeInTheDocument();
+		const todoList = screen.getByTestId('todo-list');
+		expect(todoList).toBeInTheDocument();
 
-    const newTodo = screen.getByTestId('todo-0');
-    expect(newTodo).toHaveTextContent('Do dis');
+		const newTodoTitle = screen.getByTestId('todo-title-0');
+		expect(newTodoTitle).toHaveTextContent('Do dis');
 
-    const editButton = screen.getByTestId('edit-todo-btn-0');
-    fireEvent.click(editButton);
+		const showMoreButton = screen.getByTestId('show-more-btn-0');
+		fireEvent.click(showMoreButton);
 
-    const textarea = screen.getByTestId('edit-todo-textarea-0');
-    fireEvent.change(textarea, { target: { value: 'Do this' } });
-    fireEvent.keyDown(textarea, { key: 'Enter', code: 'Enter', charCode: 13 });
+		// only available after clicking in show more button
+		const newTodoDescription = screen.getByTestId('todo-description-0');
+		expect(newTodoDescription).toHaveTextContent('im doing dis');
 
-    await waitFor(() => {
-        const updatedTodo = screen.getByTestId('todo-0');
-        expect(updatedTodo).toHaveTextContent('Do this');
-    });
-});
-test('adds a new todo and edit saving by clicking on the save btn', async () => {
-    render(<App />);
-    const input = screen.getByTestId('new-todo-input');
-    const form = screen.getByTestId('new-todo-form');
-    fireEvent.change(input, { target: { value: 'Do tat' } });
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
-    fireEvent.submit(form);
+		const editButton = screen.getByTestId('edit-todo-btn-0');
+		fireEvent.click(editButton);
 
-    const todoList = screen.getByTestId('todo-list');
-    expect(todoList).toBeInTheDocument();
+		const editDescription = screen.getByTestId('edit-description-textarea');
+		const editInput = screen.getByTestId('edit-title-input');
+		expect(editDescription).toBeInTheDocument();
+		expect(editInput).toBeInTheDocument();
+		fireEvent.change(editInput, { target: { value: 'Do this' } });
+		fireEvent.change(editDescription, {
+			target: { value: "I'm doing this" },
+		});
 
-    const newTodo = screen.getByTestId('todo-0');
-    expect(newTodo).toHaveTextContent('Do tat');
+		const saveButton = screen.getByTestId('save-btn');
+		fireEvent.click(saveButton);
 
-    const editButton = screen.getByTestId('edit-todo-btn-0');
-    fireEvent.click(editButton);
+		const updatedTodo = screen.getByTestId('todo-title-0');
+		const updatedDescription = screen.getByTestId('todo-description-0');
+		expect(updatedTodo).toHaveTextContent('Do this');
+		expect(updatedDescription).toHaveTextContent("I'm doing this");
 
-    const textarea = screen.getByTestId('edit-todo-textarea-0');
-    fireEvent.change(textarea, { target: { value: 'Do that' } });
-    const saveButton = screen.getByTestId('save-todo-btn-0');
-    fireEvent.click(saveButton);
+		const deleteBtn = screen.getByTestId('delete-todo-btn-0');
+		fireEvent.click(deleteBtn);
 
-    await waitFor(() => {
-        const updatedTodo = screen.getByTestId('todo-0');
-        expect(updatedTodo).toHaveTextContent('Do that');
-    });
-});
+		const confirmDelete = screen.getByTestId('confirm-delete-btn');
+		expect(confirmDelete).toBeInTheDocument();
 
-test('deletes a todo', () => {
-    render(<App />);
-    const input = screen.getByTestId('new-todo-input');
-    const form = screen.getByTestId('new-todo-form');
-    fireEvent.change(input, { target: { value: 'To be deleted...' } });
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
-    fireEvent.submit(form);
+		fireEvent.click(confirmDelete);
 
-    const todoList = screen.getByTestId('todo-list');
-    expect(todoList).toBeInTheDocument();
+		expect(updatedTodo).not.toBeInTheDocument();
+	});
 
-    const newTodo = screen.getByTestId('todo-0');
-    expect(newTodo).toHaveTextContent('To be deleted...');
+	test('deletes a todo', () => {
+		render(<App />);
+		const input = screen.getByTestId('new-todo-input');
+		const form = screen.getByTestId('new-todo-form');
+		fireEvent.change(input, { target: { value: 'To be deleted...' } });
+		fireEvent.submit(form);
 
-    const deleteBtn = screen.getByTestId('delete-todo-btn-0');
-    fireEvent.click(deleteBtn);
+		const todoList = screen.getByTestId('todo-list');
+		expect(todoList).toBeInTheDocument();
 
-    expect(newTodo).not.toBeInTheDocument();
-});
+		const newTodo = screen.getByTestId('todo-title-0');
+		expect(newTodo).toHaveTextContent('To be deleted...');
 
-test('toggles a todo', () => {
-    render(<App />);
-    const input = screen.getByTestId('new-todo-input');
-    const form = screen.getByTestId('new-todo-form');
-    fireEvent.change(input, { target: { value: 'To be deleted...' } });
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
-    fireEvent.submit(form);
+		const deleteBtn = screen.getByTestId('delete-todo-btn-0');
+		fireEvent.click(deleteBtn);
 
-    const todoList = screen.getByTestId('todo-list');
-    expect(todoList).toBeInTheDocument();
+		const confirmDelete = screen.getByTestId('confirm-delete-btn');
+		expect(confirmDelete).toBeInTheDocument();
 
-    const newTodo = screen.getByTestId('todo-0');
-    expect(newTodo).toHaveTextContent('To be deleted...');
-    expect(newTodo).not.toHaveClass('line-through');
+		fireEvent.click(confirmDelete);
 
-    const completeBtn = screen.getByTestId('complete-todo-btn-0');
-    fireEvent.click(completeBtn);
-
-    const completedTodo = screen.getByTestId('complete-todo-btn-0');
-    expect(completedTodo).toHaveClass('line-through');
-
-    fireEvent.click(completeBtn);
-
-    const uncompletedTodo = screen.getByTestId('complete-todo-btn-0');
-    expect(uncompletedTodo).not.toHaveClass('line-through');
-});
-
-test('filters todos by All, Pending, and Completed', async () => {
-    render(<App />);
-    const input = screen.getByTestId('new-todo-input');
-    const form = screen.getByTestId('new-todo-form');
-
-    fireEvent.change(input, { target: { value: 'Pending Todo' } });
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
-    fireEvent.submit(form);
-
-    fireEvent.change(input, { target: { value: 'Completed Todo' } });
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
-    fireEvent.submit(form);
-
-    const completeBtn = screen.getByTestId('complete-todo-btn-1');
-    fireEvent.click(completeBtn);
-
-    const allFilterBtn = screen.getByTestId('All-filter');
-    fireEvent.click(allFilterBtn);
-    await waitFor(() => {
-        const todos = screen.getAllByTestId(/todo-/);
-        expect(todos.length).toBe(2);
-    });
-
-    const pendingFilterBtn = screen.getByTestId('Pending-filter');
-    fireEvent.click(pendingFilterBtn);
-    await waitFor(() => {
-        const todos = screen.getAllByTestId(/todo-/);
-        expect(todos.length).toBe(1);
-        expect(todos[0]).toHaveTextContent('Pending Todo');
-    });
-
-    const completedFilterBtn = screen.getByTestId('Completed-filter');
-    fireEvent.click(completedFilterBtn);
-    await waitFor(() => {
-        const todos = screen.getAllByTestId(/todo-/);
-        expect(todos.length).toBe(1);
-        expect(todos[0]).toHaveTextContent('Completed Todo');
-    });
+		expect(newTodo).not.toBeInTheDocument();
+	});
 });
