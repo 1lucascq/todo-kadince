@@ -5,7 +5,7 @@ This is a React Task List Assignment project made as part of the evaluation for 
 ## Project Structure
 
 ```
-todo-kadince
+Kadince Personal Task Manager
 ├── package.json
 ├── public
 │   ├── index.html
